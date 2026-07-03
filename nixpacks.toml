@@ -1,0 +1,17 @@
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = [
+  "npm install -g pnpm@10",
+  "pnpm install --no-frozen-lockfile"
+]
+
+[phases.build]
+cmds = [
+  "BUILD_MODE=true BASE_PATH=/ pnpm --filter @workspace/astrology-site run build",
+  "pnpm --filter @workspace/api-server run build"
+]
+
+[start]
+cmd = "NODE_ENV=production node artifacts/api-server/dist/index.mjs"
